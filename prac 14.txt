@@ -1,0 +1,73 @@
+Practical 14
+package prac14;
+import java.sql.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+public class Prac14 {
+public static void main(String[] args) {
+String user="root";
+String password="root";
+String URL="jdbc:mysql://localhost:3306/test?characterEncoding=utf8";
+try {
+Class.forName("com.mysql.jdbc.Driver");
+} catch (ClassNotFoundException ex) {
+Logger.getLogger(Prac14.class.getName()).log(Level.SEVERE, null, ex);
+}
+Connection con = null;
+try {
+con = DriverManager.getConnection(URL,user,password);
+} catch (SQLException ex) {
+Logger.getLogger(Prac14.class.getName()).log(Level.SEVERE, null, ex);
+}
+if (con!=null){
+System.out.println("\nConnection Established with database");
+}
+else
+System.out.println("\nConnection Failed!!");
+// For retriving data
+String query;
+Statement stmt = null;
+ResultSet set = null;
+query = "select * from employee";
+try {
+stmt=con.createStatement();
+} catch (SQLException ex) {
+Logger.getLogger(Prac14.class.getName()).log(Level.SEVERE, null, ex);
+}
+try {
+set = stmt.executeQuery(query);
+} catch (SQLException ex) {
+Logger.getLogger(Prac14.class.getName()).log(Level.SEVERE, null, ex);
+}
+try {
+while(set.next()){
+int id=set.getInt(1);
+String name = set.getString(2);
+int salary = set.getInt(3);
+System.out.println("Employee details: "+"\nID: "+id+"\nName:
+"+name+"\nSalary: "+salary);
+}
+} catch (SQLException ex) {
+Logger.getLogger(Prac14.class.getName()).log(Level.SEVERE, null, ex);
+}
+// updating
+try{
+String q="delete from employee where employeeid=?";
+BufferedReader br =new BufferedReader(new
+InputStreamReader(System.in));
+System.out.println("enter emp id");
+int Employeeid=Integer.parseInt(br.readLine());
+PreparedStatement pstmt=con.prepareStatement(q);
+pstmt.setInt(1,Employeeid);
+pstmt.executeUpdate();
+System.out.println("data deleted succesfully");
+con.close();
+}
+catch(Exception e){
+System.out.println("error"+e);
+}
+}
+}

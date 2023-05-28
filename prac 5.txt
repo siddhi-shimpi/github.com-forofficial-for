@@ -1,0 +1,106 @@
+practical 5
+
+
+package practicegui1;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+
+public class Practicegui1 extends Frame implements ActionListener
+{
+    Label lsname, lsrollno,  lgender, lsbg,  lsadrs;
+        CheckboxGroup gender;
+Checkbox male, female;
+        TextField tfsname, tfsrollno;
+        TextArea tasadrs;
+Button submit;
+        TextArea display_details;
+       
+        Practicegui1()
+        {
+                lsname   = new Label("Name : ");
+lsrollno = new Label("Roll No : ");
+lgender  = new Label("Gender : ");
+lsbg     = new Label("Blood Group : ");
+lsadrs   = new Label("Address : ");
+                gender = new CheckboxGroup();  
+        male   = new Checkbox("Male", gender, false);  
+        female = new Checkbox("Female", gender, false);  
+        tfsname   = new TextField();
+tfsrollno = new TextField();
+               
+                tasadrs = new TextArea("", 2 , 100 , TextArea.SCROLLBARS_NONE);
+
+submit  = new Button("Submit");
+                display_details = new TextArea("", 2 , 100 , TextArea.SCROLLBARS_NONE);
+display_details.setEditable(false);
+
+lsname.setBounds(10, 50, 50, 20);
+tfsname.setBounds(70, 50, 150, 20);
+
+lsrollno.setBounds(240, 50, 50, 20);
+tfsrollno.setBounds(300, 50, 150, 20);
+                lgender.setBounds(10, 90, 50, 20);
+               
+male.setBounds(80, 90, 50, 20);
+female.setBounds(150, 90, 60, 20);
+
+lsadrs.setBounds(10, 150, 50, 20);
+tasadrs.setBounds(70, 150, 380, 70);
+
+submit.setBounds(10, 250, 440, 30);
+
+display_details.setBounds(660, 50, 400, 500);
+           
+                add(lsname);
+add(lsrollno);
+add(lgender);
+add(lsbg);
+add(lsadrs);
+
+
+add(male);
+add(female);
+
+
+
+add(tfsname);
+add(tfsrollno);
+add(tasadrs);
+
+
+
+
+add(submit);
+
+add(display_details);
+                submit.addActionListener(this);
+
+setTitle("Students Details");
+setSize(460,390);
+setLayout(null);
+setVisible(true);
+
+addWindowListener(new WindowAdapter()
+                {
+                     public void windowClosing(WindowEvent e)
+            {  
+dispose();  
+            }  
+                });
+        }
+        public void actionPerformed(ActionEvent e)
+        {
+         String sdetails = " *********************** K. K. Wagh College of Engineering Education *********************** \n   \t\t\tPancahavati,Nashik-422004  \n\nName : " + tfsname.getText() + "\nRoll No. :" + tfsrollno.getText() +  "\nGender : " + gender.getSelectedCheckbox().getLabel() + "\nAddress : " + tasadrs.getText();
+
+display_details.setText(sdetails);
+        }
+
+ 
+    public static void main(String[] args) {
+        new Practicegui1();
+       
+    }
+   
+}

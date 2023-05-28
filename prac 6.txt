@@ -1,0 +1,60 @@
+practical 7
+
+one.java
+import java.rmi.*;
+interface one extends Remote
+{
+
+    public int add(int a, int b) throws RemoteException;
+}
+two.java
+import java.rmi.*;
+import java.rmi.server.*;
+public class two extends UnicastRemoteObject implements one
+{
+    public two() throws RemoteException { }
+    public int add(int a, int b) throws RemoteException
+    {
+            return a+b;
+    }
+}
+rmiserver.java
+import java.net.MalformedURLException;
+import java.rmi.*;
+public class rmiserver
+{
+    public static void main(String args[]) throws Exception
+    {
+        try
+        {
+            two twox = new two();
+Naming.bind("add", twox);
+System.out.println("Object registered");
+        }
+        catch(MalformedURLException | AlreadyBoundException | RemoteException e)
+        {
+System.out.println("Exception" + e);
+        }
+    }
+}
+rmiclient.java
+import java.io.*;
+import java.rmi.*;
+import java.net.*;
+public class rmiclient
+{
+    public static void main(String args[]) throws Exception
+    {  
+        try
+        {
+            String s1 = "rmi://localhost/add";
+            one onex = (one)Naming.lookup(s1);
+            int m = onex.add(10,20);
+System.out.println("Addition is ",m);
+
+        }
+        catch (Exception e)
+        {
+System.out.println("Exception" + e);
+        }
+    }}

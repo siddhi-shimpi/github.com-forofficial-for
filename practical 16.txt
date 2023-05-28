@@ -1,0 +1,13 @@
+practical 16
+<!DOCTYPE html>
+<html>
+<head>
+<meta Charset = "UFT=8">
+    <title>Hello World JSP</title>
+</head>
+<body>
+    <h1>Hello World!</h1>
+</body>
+</html>
+
+

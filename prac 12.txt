@@ -1,0 +1,78 @@
+Practical 12
+package prac12;
+import java.sql.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+public class Prac12 {
+public static void main(String[] args) throws SQLException {
+String user="root";
+String password="root";
+String URL="jdbc:mysql://localhost:3306/test?characterEncoding=utf8";
+try {
+Class.forName("com.mysql.jdbc.Driver");
+} catch (ClassNotFoundException ex) {
+Logger.getLogger(Prac12.class.getName()).log(Level.SEVERE, null, ex);
+}
+Connection con = null;
+try {
+con = DriverManager.getConnection(URL,user,password);
+} catch (SQLException ex) {
+Logger.getLogger(Prac12.class.getName()).log(Level.SEVERE, null, ex);
+}
+if (con!=null){
+System.out.println("\nConnection Established with database");
+}
+else
+System.out.println("\nConnection Failed!!");
+// For retriving data
+String query;
+Statement stmt;
+ResultSet set;
+query = "select * from employee";
+stmt=con.createStatement();
+set = stmt.executeQuery(query);
+while(set.next()){
+int id=set.getInt(1);
+String name = set.getString(2);
+int salary = set.getInt(3);
+System.out.println("Employee details: "+"\nID: "+id+"\nName:
+"+name+"\nSalary: "+salary);
+}
+// inserting data
+BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+String q="Insert into
+employee(employeeid,EmployeeName,salary)values(?,?,?)";
+PreparedStatement pstmt=con.prepareStatement(q);
+System.out.println("enter emp id");
+String id1 = null;
+try {
+id1 = br.readLine();
+} catch (IOException ex) {
+Logger.getLogger(Prac12.class.getName()).log(Level.SEVERE, null, ex);
+}
+System.out.println("enter emp name");
+String name1 = null;
+try {
+name1 = br.readLine();
+} catch (IOException ex) {
+Logger.getLogger(Prac12.class.getName()).log(Level.SEVERE, null, ex);
+}
+System.out.println("emnter salary");
+String salary1 = null;
+try {
+salary1 = br.readLine();
+} catch (IOException ex) {
+Logger.getLogger(Prac12.class.getName()).log(Level.SEVERE, null, ex);
+}
+pstmt.setString(1, id1);
+pstmt.setString(2,name1);
+pstmt.setString(3,salary1);
+pstmt.executeUpdate();
+System.out.println("\nDatabase Updated sucessfully");
+}
+}
+
+

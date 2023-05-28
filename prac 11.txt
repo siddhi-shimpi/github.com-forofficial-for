@@ -1,0 +1,29 @@
+practical 11
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+public class InetAddressExample {
+    public static void main(String[] args) {
+        try {
+            // Get InetAddress for a given server
+            InetAddress address = InetAddress.getByName("google.com");
+
+            // Check if the InetAddress is a multicast address
+            boolean isMulticast = address.isMulticastAddress();
+            System.out.println("Is multicast address: " + isMulticast);
+
+            // Print the hashcode for the IP address
+            int hashCode = address.hashCode();
+            System.out.println("Hashcode: " + hashCode);
+
+            // Check if the InetAddress is an unpredictable address
+            boolean isUnpredictable = address.isAnyLocalAddress() || address.isLoopbackAddress() || address.isLinkLocalAddress();
+            System.out.println("Is unpredictable address: " + !isUnpredictable);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+

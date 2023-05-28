@@ -1,0 +1,87 @@
+Practical 15
+package prac15;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.*;
+import java.util.logging.Level;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.logging.Logger;
+public class Prac15 {
+/ public static void main(String[] args) {
+int flag=1;
+String user="root";
+String password="root";
+String URL="jdbc:mysql://localhost:3306/exp?characterEncoding=utf8";
+BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+try{
+try {
+Class.forName("com.mysql.Jdbc.Driver");
+} catch (ClassNotFoundException ex) {
+Logger.getLogger(Prac15.class.getName()).log(Level.SEVERE, null, ex);
+}
+Connection con = null;
+try {
+con = DriverManager.getConnection(URL, user, password);
+} catch (SQLException ex) {
+Logger.getLogger(Prac15.class.getName()).log(Level.SEVERE, null, ex);
+}
+if(con!=null){
+System.out.println("coonection established");
+while (flag==1){
+System.out.println("\nEnter your choice\n1.retrieve data\n2.insert data\n3.exit");
+int choice = 0;
+try {
+choice = Integer.parseInt(br.readLine());
+} catch (IOException ex) {
+Logger.getLogger(Prac15.class.getName()).log(Level.SEVERE, null, ex);
+}
+switch(choice){
+case 1:
+//retriving
+String query;
+Statement stmt;
+ResultSet set;
+query="Select*from employee";
+stmt=con.createStatement();
+set=stmt.executeQuery(query);
+while(set.next()){
+int id=set.getInt(1);
+String name=set.getString(2);
+int salary=set.getInt(3);
+System.out.println("employee details: "+"\n employee ID"+id+"\n Employee name:
+"+name+"\n salary: "+salary);
+}
+break;
+case 2:
+// inserting
+String q="Insert into employee(employeeid,name,salary) value(?,?,?)";
+PreparedStatement pstmt=con.prepareStatement(q);
+System.out.println("enter emp id");
+String id=br.readLine();
+System.out.println("enter emp name");
+String empname=br.readLine();
+System.out.println("enter salary");
+String salary=br.readLine();
+pstmt.setString(1, id);
+pstmt.setString(2, empname);
+pstmt.setString(3, salary);
+pstmt.executeUpdate();
+System.out.println("database updated succesfully");
+break;
+case 3:
+flag=0;
+break;
+default:
+System.out.println("\nenter valid choice");
+}
+}
+}
+else{
+System.out.println("conection failed");
+}
+}
+catch(Exception e){
+System.out.println("exception occured"+e); }}}
